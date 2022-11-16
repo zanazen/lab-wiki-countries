@@ -1,23 +1,36 @@
 // src/App.js
+import { useState } from 'react';
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
-import { useState } from 'react';
+import CountriesList from './components/CountriesList/CountriesList';
+import CountryDetails from './components/CountryDetails/CountryDetails';
+import { Container, Row } from 'react-bootstrap';
+import countries from './countries.json';
 
 function App() {
-  const [recipes, setRecipes] = useState(recipesData)
+  const [allCountries, setAllCountries] = useState(countries);
+
   return (
-  <div className="App">
+  <div>
     <NavBar />
-      <Routes>
-        <Route path="/" element={ <HomePage /> } />
-        <Route path="/sobre" element={ <About /> } />
-        <Route path="/receitas" element={ <RecipeList recipes={ recipes } setRecipes={ setRecipes } /> } />
-        <Route path="/receitas/:receitaId" element={ <RecipeDetails recipes={ recipes }  /> } />
-        <Route path="*" element={ <ErrorPage /> } />
-      </Routes>
-  </div>;
+    <Container>
+        <Row>
+          <CountriesList
+            allCountries={allCountries}
+            setAllCountries={setAllCountries}
+          />
+          <Routes>
+            <Route path="/" />
+            <Route
+              path="/:id"
+              element={<CountryDetails allCountries={allCountries} />}
+            />
+          </Routes>
+        </Row>
+      </Container>
+  </div>
   )
 }
 export default App;
